@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iraq Digital Platform - One Platform. Any Shop.</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary: #8F4E3C;
+            --secondary: #E07A5F;
+            --tertiary: #F2CC8F;
+            --surface: #FDF1E7;
+            --text-main: #351004;
+            --text-sub: #5C4033;
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--surface);
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        /* Blob Morphing Animation */
+        @keyframes blob-morph {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: rotate(0deg); }
+            33% { border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%; transform: rotate(1deg); }
+            66% { border-radius: 67% 33% 47% 53% / 37% 20% 80% 63%; transform: rotate(-1deg); }
+        }
+
+        .animate-blob-morph {
+            animation: blob-morph 12s ease-in-out infinite;
+        }
+
+        .hero-image {
+            transition: opacity 1000ms ease-in-out;
+        }
+
+        /* Navbar Blur Support */
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        [dir="rtl"] .font-display { font-family: 'Cairo', sans-serif; }
+        [dir="ltr"] .font-display { font-family: 'Quicksand', sans-serif; }
+    </style>
+</head>
+<body class="font-display">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300 px-4 md:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Brand -->
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 md:w-9 md:h-9 bg-[#8F4E3C] rounded-xl flex items-center justify-center text-white">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                </div>
+                <span class="text-lg md:text-xl font-bold tracking-tight" data-t="nav.brand">IraqPlatform</span>
+            </div>
+            
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 md:gap-4 lg:gap-8">
+                <!-- Lang Toggle -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-[#8F4E3C]/20 text-[#8F4E3C] font-bold text-xs md:text-sm hover:bg-[#8F4E3C]/5 transition-all">
+                    <i data-lucide="globe" class="w-4 h-4"></i>
+                    <span id="lang-btn-text">العربية</span>
+                </button>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-6 lg:gap-8 text-sm">
+                    <a href="#solutions" class="text-[#5C4033] font-semibold hover:text-[#8F4E3C] transition-colors" data-t="nav.solutions">Solutions</a>
+                    <a href="#iraq" class="text-[#5C4033] font-semibold hover:text-[#8F4E3C] transition-colors" data-t="nav.whyIraq">Why Iraq?</a>
+                    <a href="#growth" class="text-[#5C4033] font-semibold hover:text-[#8F4E3C] transition-colors" data-t="nav.growth">Growth</a>
+                    <a href="#contact" class="bg-[#8F4E3C] text-white px-5 py-2 rounded-full font-bold hover:bg-[#7a4233] transition-all" data-t="nav.cta">Get Started</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="p-2 md:hidden text-[#351004]">
+                    <i id="menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden pt-4 pb-6 flex flex-col gap-4 text-center border-t border-[#351004]/5 mt-4">
+            <a href="#solutions" onclick="toggleMobileMenu()" class="py-2 text-[#5C4033] font-semibold text-lg" data-t="nav.solutions">Solutions</a>
+            <a href="#iraq" onclick="toggleMobileMenu()" class="py-2 text-[#5C4033] font-semibold text-lg" data-t="nav.whyIraq">Why Iraq?</a>
+            <a href="#growth" onclick="toggleMobileMenu()" class="py-2 text-[#5C4033] font-semibold text-lg" data-t="nav.growth">Growth</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="mt-2 bg-[#8F4E3C] text-white py-3 rounded-full font-bold text-lg mx-8" data-t="nav.cta">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-28 md:pt-40 pb-16 md:pb-24 px-4 md:px-6 overflow-hidden">
+        <div id="hero-blob" class="absolute top-[-100px] right-[-100px] w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-[#E07A5F] blur-[80px] md:blur-[120px] opacity-20 rounded-full"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-12 md:gap-16">
+            <div class="flex-1 text-center lg:text-start">
+                <div class="inline-block bg-[#F2CC8F] text-[#351004] px-4 py-1.5 rounded-full font-bold text-xs mb-6 uppercase tracking-widest" data-t="hero.badge">
+                    Available in Iraq 2026
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" data-t="hero.title">
+                    One Platform. Any Shop.
+                </h1>
+                <p class="text-base md:text-lg lg:text-xl text-[#5C4033] font-medium mb-10 max-w-xl mx-auto lg:mx-0" data-t="hero.desc">
+                    The smartest way to sell and grow in the Iraqi market.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+                    <a href="#contact" class="w-full sm:w-auto bg-[#8F4E3C] text-white px-8 py-3.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 hover:scale-105 transition-transform group">
+                        <span data-t="hero.cta">Start Selling Now</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 rtl:rotate-180 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <div class="flex items-center gap-3 px-4 py-3 text-[#8F4E3C] font-bold text-sm">
+                        <div class="flex -space-x-1.5 rtl:space-x-reverse">
+                            <div class="w-7 h-7 rounded-full bg-[#E07A5F] border-2 border-white"></div>
+                            <div class="w-7 h-7 rounded-full bg-[#F2CC8F] border-2 border-white"></div>
+                            <div class="w-7 h-7 rounded-full bg-[#8F4E3C] border-2 border-white"></div>
+                        </div>
+                        <span data-t="hero.trusted">Trusted by 500+ Shops</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex-1 flex justify-center lg:justify-end w-full max-w-md md:max-w-none">
+                <!-- HERO SLIDER -->
+                <div class="relative w-full max-w-[580px] aspect-[4/3] flex items-center justify-center">
+                    <div id="blob-container" class="absolute inset-0 shadow-2xl border-[10px] md:border-[12px] border-white overflow-hidden z-10 animate-blob-morph">
+                        <div id="slider-images" class="relative w-full h-full">
+                            <!-- JS will populate these -->
+                        </div>
+                    </div>
+                    <div class="absolute top-[-20px] left-[-20px] w-32 h-32 bg-[#E07A5F]/20 blur-3xl rounded-full animate-pulse"></div>
+                    <div class="absolute bottom-[-20px] right-[-20px] w-40 h-40 bg-[#F2CC8F]/20 blur-3xl rounded-full animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTIONS -->
+    <section id="solutions" class="py-16 md:py-20 px-4 md:px-6 bg-[#F4DED8]/20">
+        <div class="max-w-7xl mx-auto text-center mb-16 px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4" data-t="solutions.title">Designed for Growth</h2>
+            <p class="text-base md:text-lg text-[#5C4033] max-w-xl mx-auto" data-t="solutions.desc">We provide the tools to scale across Iraq.</p>
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-8 md:p-10 rounded-[40px] shadow-sm hover:shadow-md transition-shadow group">
+                <div class="w-14 h-14 bg-[#FDF1E7] rounded-2xl flex items-center justify-center mb-6 text-[#8F4E3C] group-hover:scale-105 transition-transform">
+                    <i data-lucide="shopping-bag" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3" data-t="solutions.smartStore.title">Smart Store</h3>
+                <p class="text-sm md:text-base text-[#5C4033] leading-relaxed" data-t="solutions.smartStore.desc"></p>
+            </div>
+            
+            <div class="border-2 border-dashed border-[#E07A5F] p-8 md:p-10 rounded-[40px] flex flex-col justify-center bg-white/50">
+                <div class="w-14 h-14 bg-[#8F4E3C] rounded-2xl flex items-center justify-center mb-6 text-white">
+                    <i data-lucide="camera" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3" data-t="solutions.aiSuite.title">AI Creative Suite</h3>
+                <p class="text-sm md:text-base text-[#5C4033] leading-relaxed" data-t="solutions.aiSuite.desc"></p>
+            </div>
+
+            <div class="bg-white p-8 md:p-10 rounded-[40px] shadow-sm hover:shadow-md transition-shadow group">
+                <div class="w-14 h-14 bg-[#E7F3EF] rounded-2xl flex items-center justify-center mb-6 text-[#25D366] group-hover:scale-105 transition-transform">
+                    <i data-lucide="message-circle" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3" data-t="solutions.expert.title">Expert Intelligence</h3>
+                <p class="text-sm md:text-base text-[#5C4033] leading-relaxed" data-t="solutions.expert.desc"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCAL FOCUS -->
+    <section id="iraq" class="py-16 md:py-20 px-4 md:px-6">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 md:gap-16">
+            <div class="flex-1 w-full max-w-lg">
+                <div id="iraq-img-wrap" class="w-full aspect-[16/10] lg:aspect-[4/5] bg-white rounded-[32px] md:rounded-[40px] border-[6px] md:border-[8px] border-white shadow-xl overflow-hidden rotate-[-1.5deg]">
+                    <img src="https://cdn.jsdelivr.net/gh/mahdi7192/assets@main/i-platform/arabic-ui.jpg" class="w-full h-full object-cover" alt="Arabic UI">
+                </div>
+            </div>
+            <div class="flex-1 text-start">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-tight" data-t="localFocus.title">Engineered for Iraqi Reality</h2>
+                <div class="space-y-6 md:space-y-8">
+                    <!-- Logical start alignment for items -->
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-5 items-start">
+                        <div class="w-12 h-12 bg-[#F2CC8F] rounded-xl flex-shrink-0 flex items-center justify-center text-[#8F4E3C]">
+                            <i data-lucide="wifi-off" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-1.5" data-t="localFocus.network.title">Resilience</h4>
+                            <p class="text-sm md:text-base text-[#5C4033]" data-t="localFocus.network.desc"></p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-5 items-start">
+                        <div class="w-12 h-12 bg-[#F2CC8F] rounded-xl flex-shrink-0 flex items-center justify-center text-[#8F4E3C]">
+                            <i data-lucide="languages" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-1.5" data-t="localFocus.lang.title">Localized</h4>
+                            <p class="text-sm md:text-base text-[#5C4033]" data-t="localFocus.lang.desc"></p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-5 items-start">
+                        <div class="w-12 h-12 bg-[#F2CC8F] rounded-xl flex-shrink-0 flex items-center justify-center text-[#8F4E3C]">
+                            <i data-lucide="smartphone" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-1.5" data-t="localFocus.mobile.title">Mobile First</h4>
+                            <p class="text-sm md:text-base text-[#5C4033]" data-t="localFocus.mobile.desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SENSORY -->
+    <section class="bg-[#8F4E3C] text-white py-0 overflow-hidden">
+        <div class="flex flex-col lg:flex-row">
+            <!-- Updated to text-start and items-start for consistent logical alignment -->
+            <div class="flex-1 py-16 md:py-20 px-6 md:px-10 lg:pr-20 flex flex-col justify-center text-start items-start">
+                <div class="inline-block bg-white/20 px-4 py-1.5 rounded-full font-bold text-xs mb-6 w-fit backdrop-blur-sm uppercase" data-t="sensory.badge">SENSORY</div>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white" data-t="sensory.title">Sell the Feeling.</h2>
+                <p class="text-base md:text-lg text-white/80 mb-8 leading-relaxed max-w-md" data-t="sensory.desc"></p>
+                <div class="p-6 bg-white/10 rounded-[28px] border border-white/20 italic text-lg md:text-xl w-full max-w-md">
+                    "<span data-t="sensory.quote"></span>"
+                </div>
+            </div>
+            <div class="flex-1 min-h-[350px] md:min-h-[400px]">
+                <img src="https://cdn.jsdelivr.net/gh/mahdi7192/assets@main/i-platform/feeling.jpg" class="w-full h-full object-cover" alt="Sensory feeling">
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="bg-[#351004] text-white text-center py-16 md:py-20">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-12 text-white" data-t="stats.title">Efficiency</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+                <div class="flex flex-col items-center">
+                    <div class="text-6xl md:text-7xl font-bold text-[#E07A5F] mb-3">80%</div>
+                    <p class="text-base md:text-lg text-white/70" data-t="stats.processing">Faster Processing</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-6xl md:text-7xl font-bold text-[#F2CC8F] mb-3">30</div>
+                    <p class="text-base md:text-lg text-white/70" data-t="stats.hours">Hours Saved</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24 md:py-32 px-4">
+        <div class="max-w-4xl mx-auto bg-[#8F4E3C] rounded-[48px] md:rounded-[56px] p-8 md:p-16 text-center text-white relative overflow-hidden">
+            <div class="absolute top-[-50px] right-[-50px] w-64 h-64 bg-white/10 blur-3xl rounded-full"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white" data-t="contact.title">Transform Business</h2>
+                <p class="text-lg text-white/80 mb-12 max-w-2xl mx-auto" data-t="contact.desc"></p>
+                <div class="flex flex-col items-center">
+                    <div class="text-[#25D366] mb-6 bg-white p-4 md:p-5 rounded-[24px] md:rounded-[28px] shadow-xl">
+                        <i data-lucide="message-circle" class="w-10 h-10 md:w-16 md:h-16" fill="#25D366"></i>
+                    </div>
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-widest mb-3" dir="ltr">+989368364243</div>
+                    <p class="text-sm md:text-base font-bold text-white/70 uppercase tracking-widest mb-10" data-t="contact.waLabel">WhatsApp Us</p>
+                    <button class="w-full sm:w-auto bg-white text-[#8F4E3C] px-10 py-4 rounded-full font-bold text-lg md:text-xl hover:scale-105 transition-transform shadow-xl" data-t="contact.cta">Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-10 border-t border-[#351004]/10 text-center text-[#5C4033] text-xs md:text-sm px-4">
+        <p class="font-bold" data-t="footer.copy">© 2026 Iraq Digital Platform.</p>
+        <p class="mt-2 opacity-60" data-t="footer.sub">Managed for success.</p>
+    </footer>
+
+    <!-- TRANSLATION SCRIPT -->
+    <script>
+        const TRANSLATIONS = {
+            en: {
+                dir: 'ltr',
+                btnText: "العربية",
+                nav: { brand: "IraqPlatform", solutions: "Solutions", whyIraq: "Why Iraq?", growth: "Growth", cta: "Get Started" },
+                hero: { badge: "Available in Iraq 2026", title: "One Platform. Any Shop.", desc: "The smartest way to sell and grow in the Iraqi market. Simple, localized, and optimized for speed.", cta: "Start Selling Now", trusted: "Trusted by 500+ Shops",
+                    labels: ["Clothing Store", "Personal Care & Scarf", "Footwear & Shoes", "Electronics & Tech"]
+                },
+                solutions: {
+                    title: "Designed for Growth",
+                    desc: "We provide the tools and tech to scale across Iraq.",
+                    smartStore: { title: "Smart Store", desc: "A beautiful storefront that manages orders, payments, and stock in one place." },
+                    aiSuite: { title: "AI Creative Suite", desc: "Our AI turns snapshots into studio-quality photos instantly." },
+                    expert: { title: "Expert Intelligence", desc: "Real analysts send growth advice directly to your WhatsApp." }
+                },
+                localFocus: {
+                    title: "Engineered for Iraq",
+                    network: { title: "Resilience", desc: "Optimized for 3G and intermittent connections." },
+                    lang: { title: "Localized", desc: "Full Arabic and Kurdish support." },
+                    mobile: { title: "Mobile-First", desc: "Tactile, comfortable for portrait browsing." }
+                },
+                sensory: { badge: "SENSORY EXPERIENCES", title: "Sell the Feeling.", desc: "Customers in Iraq buy with emotion. Our AI captures the 'good feeling' of using it.", quote: "Turn simple transactions into luxury moments." },
+                stats: { title: "Unprecedented Efficiency", processing: "Faster Order Processing", hours: "Hours Saved Weekly" },
+                contact: { title: "Ready to Transform?", desc: "We handle the tech and servers. You focus on the sales.", waLabel: "Message us on WhatsApp", cta: "Get Your Live Demo" },
+                footer: { copy: "© 2026 Iraq Digital Platform. All Rights Reserved.", sub: "Managed & Operated end-to-end for your success." }
+            },
+            ar: {
+                dir: 'rtl',
+                btnText: "English",
+                nav: { brand: "إيراك بلاتفورم", solutions: "حلولنا", whyIraq: "لماذا العراق؟", growth: "النمو", cta: "ابدأ الآن" },
+                hero: { badge: "متوفر في العراق 2026", title: "منصة واحدة. لأي متجر.", desc: "الطريقة الأذكى للبيع والنمو في السوق العراقي. بسيطة، محلية، ومحسنة للسرعة.", cta: "ابدأ البيع الآن", trusted: "موثوق من قبل +500 متجر",
+                    labels: ["متجر ملابس", "العناية الشخصية", "الأحذية والحقائب", "الإلكترونيات والتقنية"]
+                },
+                solutions: {
+                    title: "مصمم للنمو",
+                    desc: "نحن نوفر الأدوات والتقنية لتوسيع عملك في كل البلاد.",
+                    smartStore: { title: "المتجر الذكي", desc: "واجهة متجر جميلة تدير الطلبات والمدفوعات والمخزون في مكان واحد." },
+                    aiSuite: { title: "جناح الذكاء الاصطناعي", desc: "يقوم ذكاؤنا الاصطناعي بتحويل صور هاتفك إلى صور احترافية فوراً." },
+                    expert: { title: "الذكاء الخبير", desc: "يراقب محللون متجرك ويرسلون نصائح نمو عملية للواتساب الخاص بك." }
+                },
+                localFocus: {
+                    title: "مصمم للواقع العراقي",
+                    network: { title: "مرونة الشبكة", desc: "محسن لشبكات 3G والاتصالات المتقطعة." },
+                    lang: { title: "لغة محلية", desc: "دعم كامل للعربية والكردية." },
+                    mobile: { title: "واجهة الهاتف", desc: "مريح وبسيط ومبني خصيصاً للتصفح الطولي." }
+                },
+                sensory: { badge: "تجارب حسية", title: "بع الشعور.", desc: "العملاء في العراق يشترون بالعاطفة. تقنيتنا لا تعرض منتجاً فحسب، بل تلتقط الشعور.", quote: "حول المعاملات البسيطة إلى لحظات من الفخامة." },
+                stats: { title: "كفاءة غير مسبوقة", processing: "معالجة أسرع للطلبات", hours: "ساعة يتم توفيرها أسبوعياً" },
+                contact: { title: "جاهز لتطوير عملك؟", desc: "نحن نتولى الأمور التقنية والسيرفرات. أنت ركز فقط على المبيعات.", waLabel: "راسلنا على الواتساب", cta: "احصل على ديمو مباشر" },
+                footer: { copy: "© 2026 منصة العراق الرقمية. جميع الحقوق محفوظة.", sub: "تُدار وتُشغل بالكامل من أجل نجاحك." }
+            }
+        };
+
+        const HERO_IMAGES = [
+            "https://cdn.jsdelivr.net/gh/mahdi7192/assets@main/i-platform/cloths-shop.jpg",
+            "https://cdn.jsdelivr.net/gh/mahdi7192/assets@main/i-platform/scarf-shop.jpg",
+            "https://cdn.jsdelivr.net/gh/mahdi7192/assets@main/i-platform/shoe-shop.jpg",
+            "https://cdn.jsdelivr.net/gh/mahdi7192/assets@main/i-platform/tech-shop.jpg"
+        ];
+
+        let currentLang = 'en';
+        let activeIdx = 0;
+
+        function updateUI() {
+            const t = TRANSLATIONS[currentLang];
+            document.documentElement.dir = t.dir;
+            document.documentElement.lang = currentLang;
+            document.getElementById('lang-btn-text').innerText = t.btnText;
+
+            // Apply translations to data-t attributes
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                const value = key.split('.').reduce((obj, k) => obj[k], t);
+                el.innerText = value;
+            });
+
+            // Re-render slider to update labels
+            renderSlider();
+            
+            // Adjust RTL specific transforms
+            const imgWrap = document.getElementById('iraq-img-wrap');
+            imgWrap.style.transform = t.dir === 'rtl' ? 'rotate(1.5deg)' : 'rotate(-1.5deg)';
+            
+            const blob = document.getElementById('hero-blob');
+            blob.style.left = t.dir === 'rtl' ? '-100px' : 'auto';
+            blob.style.right = t.dir === 'rtl' ? 'auto' : '-100px';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            updateUI();
+        }
+
+        function renderSlider() {
+            const container = document.getElementById('slider-images');
+            const t = TRANSLATIONS[currentLang];
+            container.innerHTML = HERO_IMAGES.map((src, idx) => `
+                <div class="hero-image absolute inset-0 ${idx === activeIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
+                    <img src="${src}" class="w-full h-full object-cover" />
+                    <div class="absolute bottom-6 md:bottom-8 ${currentLang === 'ar' ? 'left-6 md:left-8' : 'right-6 md:right-8'} bg-white/95 backdrop-blur-md px-4 py-2 md:px-5 md:py-2.5 rounded-2xl z-20 shadow-lg border border-white/20">
+                       <span class="text-[10px] md:text-xs font-bold text-[#8F4E3C] uppercase tracking-[0.1em] md:tracking-[0.15em]">
+                         ${t.hero.labels[idx]}
+                       </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const isOpen = !menu.classList.contains('hidden');
+            
+            if (isOpen) {
+                menu.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'menu');
+            } else {
+                menu.classList.remove('hidden');
+                icon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons();
+        }
+
+        // Initialize
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('nav-scrolled');
+            else nav.classList.remove('nav-scrolled');
+        });
+
+        setInterval(() => {
+            activeIdx = (activeIdx + 1) % HERO_IMAGES.length;
+            renderSlider();
+        }, 4000);
+
+        window.onload = () => {
+            lucide.createIcons();
+            updateUI();
+        };
+    </script>
+</body>
+</html>
